@@ -1,18 +1,18 @@
 // ==UserScript==
-// @name         bgm-tv-hover-more-info
-// @name:zh      鼠标指向条目链接时显示更多信息
-// @namespace    https://trim21.me/
-// @version      0.0.2
-// @author       Trim21 <i@trim21.me>
-// @source       https://github.com/Trim21/bgm-tv-hover-info
-// @supportURL   https://github.com/Trim21/bgm-tv-hover-info/issues
-// @license      MIT
-// @match        https://bgm.tv/group/topic/*
-// @match        https://bangumi.tv/group/topic/*
-// @match        https://chii.in/group/topic/*
-// @require      https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
-// @require      https://cdn.jsdelivr.net/npm/lodash@undefined/lodash.min.js
-// @run-at       document-end
+// @name          bgm-tv-hover-more-info
+// @name:zh       鼠标指向条目链接时显示更多信息
+// @namespace     https://trim21.me/
+// @description   在讨论贴中添加一个悬浮窗显示条目信息
+// @version       0.0.2
+// @author        Trim21 <i@trim21.me>
+// @source        https://github.com/Trim21/bgm-tv-hover-info
+// @supportURL    https://github.com/Trim21/bgm-tv-hover-info/issues
+// @license       MIT
+// @match         https://bgm.tv/group/topic/*
+// @match         https://bangumi.tv/group/topic/*
+// @match         https://chii.in/group/topic/*
+// @require       https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
+// @run-at        document-end
 // ==/UserScript==
 
 
