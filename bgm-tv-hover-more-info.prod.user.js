@@ -3,7 +3,7 @@
 // @name:zh       鼠标指向条目链接时显示更多信息
 // @namespace     https://trim21.me/
 // @description   在讨论贴中添加一个悬浮窗显示条目信息
-// @version       0.0.3
+// @version       0.0.5
 // @author        Trim21 <i@trim21.me>
 // @source        https://github.com/Trim21/bgm-tv-hover-info
 // @supportURL    https://github.com/Trim21/bgm-tv-hover-info/issues
