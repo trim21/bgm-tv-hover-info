@@ -99,9 +99,9 @@ function isBangumiSubjectHref(s: string | undefined): Boolean {
   if (!s?.length) return false;
 
   return (
-    s.startsWith('https://bgm.tv/subject/') ||
-    s.startsWith('https://bangumi.tv/subject/') ||
-    s.startsWith('https://chii.in/subject/')
+    /https:\/\/bgm.tv\/subject\/\d+/.test(s) ||
+    /https:\/\/bangumi.tv\/subject\/\d+/.test(s) ||
+    /https:\/\/chii.in\/subject\/\d+/.test(s)
   );
 }
 
