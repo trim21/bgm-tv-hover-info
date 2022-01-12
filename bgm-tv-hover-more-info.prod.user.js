@@ -3,7 +3,7 @@
 // @name:zh       鼠标指向条目链接时显示更多信息
 // @namespace     https://trim21.me/
 // @description   在讨论贴中添加一个悬浮窗显示条目信息
-// @version       0.0.5
+// @version       0.0.6
 // @author        Trim21 <i@trim21.me>
 // @source        https://github.com/Trim21/bgm-tv-hover-info
 // @supportURL    https://github.com/Trim21/bgm-tv-hover-info/issues
@@ -114,7 +114,7 @@ async function main() {
 
 function isBangumiSubjectHref(s) {
   if (!(s !== null && s !== void 0 && s.length)) return false;
-  return s.startsWith('https://bgm.tv/subject/') || s.startsWith('https://bangumi.tv/subject/') || s.startsWith('https://chii.in/subject/');
+  return /https:\/\/bgm.tv\/subject\/\d+/.test(s) || /https:\/\/bangumi.tv\/subject\/\d+/.test(s) || /https:\/\/chii.in\/subject\/\d+/.test(s);
 }
 
 async function leaveHandler() {
