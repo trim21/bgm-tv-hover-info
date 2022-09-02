@@ -10,7 +10,12 @@ module.exports = {
   source: repository.url,
   supportURL: repository.url + '/issues',
   license: 'MIT',
-  match: ['https://bgm.tv/group/topic/*', 'https://bangumi.tv/group/topic/*', 'https://chii.in/group/topic/*'],
+  match: [
+    'https://bgm.tv/group/topic/*',
+    'https://bangumi.tv/group/topic/*',
+    'https://chii.in/group/topic/*',
+    'https://bgm.tv/rakuen/topiclist',
+  ],
   require: [`https://cdn.jsdelivr.net/npm/jquery@${dependencies.jquery}/dist/jquery.min.js`],
   'run-at': 'document-end',
 };

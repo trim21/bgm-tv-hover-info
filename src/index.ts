@@ -99,6 +99,7 @@ function isBangumiSubjectHref(s: string | undefined): Boolean {
   if (!s?.length) return false;
 
   return (
+    /\/subject\/\d+/.test(s) ||
     /https:\/\/bgm.tv\/subject\/\d+/.test(s) ||
     /https:\/\/bangumi.tv\/subject\/\d+/.test(s) ||
     /https:\/\/chii.in\/subject\/\d+/.test(s)
@@ -116,9 +117,8 @@ async function hoverHandler(this: HTMLElement): Promise<void> {
   if (!href) {
     return;
   }
-  const url = new URL(href);
 
-  const offset = e.offset();
+  const offset = e.offset() ?? { left: 0, top: 0 };
   $('body').append('<div id="popup"> loading </div>');
 
   const popup = $('#popup').css({
@@ -128,7 +128,7 @@ async function hoverHandler(this: HTMLElement): Promise<void> {
     'z-index': 1000,
   });
 
-  const subjectID = url.pathname.split('/').pop();
+  const subjectID = href.split('/').pop();
   if (!subjectID) {
     return;
   }
