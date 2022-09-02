@@ -3,7 +3,7 @@
 // @name:zh       鼠标指向条目链接时显示更多信息
 // @namespace     https://trim21.me/
 // @description   在讨论贴中添加一个悬浮窗显示条目信息
-// @version       0.0.6
+// @version       0.1.0
 // @author        Trim21 <i@trim21.me>
 // @source        https://github.com/Trim21/bgm-tv-hover-info
 // @supportURL    https://github.com/Trim21/bgm-tv-hover-info/issues
@@ -11,6 +11,7 @@
 // @match         https://bgm.tv/group/topic/*
 // @match         https://bangumi.tv/group/topic/*
 // @match         https://chii.in/group/topic/*
+// @match         https://bgm.tv/rakuen/topiclist
 // @require       https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @run-at        document-end
 // ==/UserScript==
@@ -64,30 +65,24 @@ const style = `
 
 </style>
 `;
-
 function createPopup(subject) {
-  var _subject$images;
-
-  let rank = '';
-
-  if (subject.rating.rank) {
-    rank = `<p class="rateInfo">
+    var ref;
+    let rank = '';
+    if (subject.rating.rank) {
+        rank = `<p class="rateInfo">
 <span class="starstop-s"><span class="starlight stars${Math.round(subject.rating.score)}"></span></span>
  <small class="fade">${subject.rating.score}</small> <span class="tip_j">(${subject.rating.total}人评分)</span>
 </p>`;
-  }
-
-  let tags = '';
-
-  if (subject.tags.length) {
-    tags = "<div class='popup-tags'>" + subject.tags.sort((a, b) => b.count - a.count).slice(0, 10).map(value => `<span class="tag"><span class="name">${value.name}</span> <small>${value.count}</small></span>`).join('\n');
-    tags += '</div>';
-  }
-
-  return `
+    }
+    let tags = '';
+    if (subject.tags.length) {
+        tags = "<div class='popup-tags'>" + subject.tags.sort((a, b)=>b.count - a.count).slice(0, 10).map((value)=>`<span class="tag"><span class="name">${value.name}</span> <small>${value.count}</small></span>`).join('\n');
+        tags += '</div>';
+    }
+    return `
 <div class="d-flex">
   <span class="image d-block">
-    <img src="${(_subject$images = subject.images) === null || _subject$images === void 0 ? void 0 : _subject$images.small}" class="cover" alt="${subject.name}">
+    <img src="${(ref = subject.images) === null || ref === void 0 ? void 0 : ref.small}" class="cover" alt="${subject.name}">
   </span>
   <div class="d-block">
     <h3>${subject.name}</h3>
@@ -101,67 +96,57 @@ ${rank}
 ${tags}
 `;
 }
-
 async function main() {
-  console.log(GM.info.script.name);
-  external_$_namespaceObject('head').append(style);
-  external_$_namespaceObject('a').each((i, e) => {
-    if (isBangumiSubjectHref(external_$_namespaceObject(e).attr('href'))) {
-      external_$_namespaceObject(e).on('mouseover', hoverHandler).on('mouseleave', leaveHandler);
-    }
-  });
+    console.log(GM.info.script.name);
+    external_$_namespaceObject('head').append(style);
+    external_$_namespaceObject('a').each((i, e)=>{
+        if (isBangumiSubjectHref(external_$_namespaceObject(e).attr('href'))) {
+            external_$_namespaceObject(e).on('mouseover', hoverHandler).on('mouseleave', leaveHandler);
+        }
+    });
 }
-
 function isBangumiSubjectHref(s) {
-  if (!(s !== null && s !== void 0 && s.length)) return false;
-  return /https:\/\/bgm.tv\/subject\/\d+/.test(s) || /https:\/\/bangumi.tv\/subject\/\d+/.test(s) || /https:\/\/chii.in\/subject\/\d+/.test(s);
+    if (!(s === null || s === void 0 ? void 0 : s.length)) return false;
+    return /\/subject\/\d+/.test(s) || /https:\/\/bgm.tv\/subject\/\d+/.test(s) || /https:\/\/bangumi.tv\/subject\/\d+/.test(s) || /https:\/\/chii.in\/subject\/\d+/.test(s);
 }
-
 async function leaveHandler() {
-  external_$_namespaceObject('#popup').remove();
-  console.log('leave');
+    external_$_namespaceObject('#popup').remove();
+    console.log('leave');
 }
-
 async function hoverHandler() {
-  const e = external_$_namespaceObject(this);
-  const href = e.attr('href');
-
-  if (!href) {
-    return;
-  }
-
-  const url = new URL(href);
-  const offset = e.offset();
-  external_$_namespaceObject('body').append('<div id="popup"> loading </div>');
-  const popup = external_$_namespaceObject('#popup').css({
-    left: offset.left,
-    top: offset.top + 40,
-    position: 'absolute',
-    'z-index': 1000
-  });
-  const subjectID = url.pathname.split('/').pop();
-
-  if (!subjectID) {
-    return;
-  }
-
-  const res = await fetch(`https://api.bgm.tv/v0/subjects/${subjectID}`);
-
-  if (res.status > 400) {
-    popup.html('not found');
-    return;
-  }
-
-  const data = await res.json();
-  let html = createPopup(data);
-
-  if (res.redirected) {
-    html = '条目被合并到此条目' + html;
-  }
-
-  popup.html(html);
+    const e = external_$_namespaceObject(this);
+    const href = e.attr('href');
+    if (!href) {
+        return;
+    }
+    const offset = e.offset() ?? {
+        left: 0,
+        top: 0
+    };
+    external_$_namespaceObject('body').append('<div id="popup"> loading </div>');
+    const popup = external_$_namespaceObject('#popup').css({
+        left: offset.left,
+        top: offset.top + 40,
+        position: 'absolute',
+        'z-index': 1000
+    });
+    const subjectID = href.split('/').pop();
+    if (!subjectID) {
+        return;
+    }
+    const res = await fetch(`https://api.bgm.tv/v0/subjects/${subjectID}`);
+    if (res.status > 400) {
+        popup.html('not found');
+        return;
+    }
+    const data = await res.json();
+    let html = createPopup(data);
+    if (res.redirected) {
+        html = '条目被合并到此条目' + html;
+    }
+    popup.html(html);
 }
-
 main().catch(console.error);
+
 /******/ })()
 ;
