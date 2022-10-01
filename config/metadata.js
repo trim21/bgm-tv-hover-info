@@ -1,5 +1,11 @@
 const { author, dependencies, name, repository, version } = require('../package.json');
 
+const match = [];
+
+for (const m of ['/group/topic/*', '/index/*', '/rakuen/topiclist']) {
+  match.push(...['bgm.tv', 'bangumi.tv', 'chii.in'].map((x) => `https://${x}${m}`));
+}
+
 module.exports = {
   name,
   'name:zh': '鼠标指向条目链接时显示更多信息',
@@ -10,12 +16,7 @@ module.exports = {
   source: repository.url,
   supportURL: repository.url + '/issues',
   license: 'MIT',
-  match: [
-    'https://bgm.tv/group/topic/*',
-    'https://bangumi.tv/group/topic/*',
-    'https://chii.in/group/topic/*',
-    'https://bgm.tv/rakuen/topiclist',
-  ],
+  match,
   require: [`https://cdn.jsdelivr.net/npm/jquery@${dependencies.jquery}/dist/jquery.min.js`],
   'run-at': 'document-end',
 };
