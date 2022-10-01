@@ -23,7 +23,12 @@ const webpackConfig = {
       {
         test: /\.([tj])s$/,
         use: {
-          loader: 'swc-loader',
+          loader: 'esbuild-loader',
+          options: {
+            loader: 'ts',
+            target: 'chrome86',
+            charset: 'utf8',
+          },
         },
       },
     ],
