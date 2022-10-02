@@ -29,7 +29,8 @@
     "build": "webpack --config config/webpack.config.prod.js",
     "dev": "webpack --config config/webpack.config.dev.js",
     "lint-staged": "lint-staged -v",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
