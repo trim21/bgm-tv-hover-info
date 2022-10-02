@@ -1,6 +1,7 @@
 import * as $ from 'jquery';
 
 import { Subject } from './model';
+import { getSubjectID } from './utils';
 
 const style = `
 <style>
@@ -46,9 +47,9 @@ const style = `
 function createPopup(subject: Subject): string {
   let rank = '';
   if (subject.rating.rank) {
-    rank = `<p class="rateInfo">
-<span class="starstop-s"><span class="starlight stars${Math.round(subject.rating.score)}"></span></span>
- <small class="fade">${subject.rating.score}</small> <span class="tip_j">(${subject.rating.total}人评分)</span>
+    rank = `<p class='rateInfo'>
+<span class='starstop-s'><span class='starlight stars${Math.round(subject.rating.score)}'></span></span>
+ <small class='fade'>${subject.rating.score}</small> <span class='tip_j'>(${subject.rating.total}人评分)</span>
 </p>`;
   }
 
@@ -60,21 +61,21 @@ function createPopup(subject: Subject): string {
         .sort((a, b) => b.count - a.count)
         .slice(0, 10)
         .map(
-          (value) => `<span class="tag"><span class="name">${value.name}</span> <small>${value.count}</small></span>`,
+          (value) => `<span class='tag'><span class='name'>${value.name}</span> <small>${value.count}</small></span>`,
         )
         .join('\n');
     tags += '</div>';
   }
 
   return `
-<div class="d-flex">
-  <span class="image d-block">
-    <img src="${subject.images?.small}" class="cover" alt="${subject.name}">
+<div class='d-flex'>
+  <span class='image d-block'>
+    <img src='${subject.images?.small}' class='cover' alt='${subject.name}'>
   </span>
-  <div class="d-block">
+  <div class='d-block'>
     <h3>${subject.name}</h3>
-    <small class="grey">${subject.name_cn}</small>
-    <p class="info tip"> ${subject.summary} </p>
+    <small class='grey'>${subject.name_cn}</small>
+    <p class='info tip'> ${subject.summary} </p>
   </div>
 </div>
 
@@ -89,21 +90,10 @@ async function main(): Promise<void> {
   $('head').append(style);
 
   $('a').each((i, e) => {
-    if (isBangumiSubjectHref($(e).attr('href'))) {
+    if (getSubjectID($(e).attr('href'))) {
       $(e).on('mouseover', hoverHandler).on('mouseleave', leaveHandler);
     }
   });
-}
-
-function isBangumiSubjectHref(s: string | undefined): Boolean {
-  if (!s?.length) return false;
-
-  return (
-    /\/subject\/\d+/.test(s) ||
-    /https:\/\/bgm.tv\/subject\/\d+/.test(s) ||
-    /https:\/\/bangumi.tv\/subject\/\d+/.test(s) ||
-    /https:\/\/chii.in\/subject\/\d+/.test(s)
-  );
 }
 
 async function leaveHandler(this: HTMLElement): Promise<void> {
@@ -128,7 +118,7 @@ async function hoverHandler(this: HTMLElement): Promise<void> {
     'z-index': 1000,
   });
 
-  const subjectID = href.split('/').pop();
+  const subjectID = getSubjectID(href);
   if (!subjectID) {
     return;
   }
