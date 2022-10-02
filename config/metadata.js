@@ -10,7 +10,7 @@ module.exports = {
   name,
   'name:zh': '鼠标指向条目链接时显示更多信息',
   namespace: 'https://trim21.me/',
-  description: '在讨论贴中添加一个悬浮窗显示条目信息',
+  description: '鼠标指向条目链接时弹出一个悬浮窗显示条目信息',
   version,
   author,
   source: repository.url,
