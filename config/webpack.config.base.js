@@ -1,6 +1,10 @@
 const path = require('path');
 
 const webpackConfig = {
+  cache: {
+    type: 'filesystem',
+    allowCollectingMemory: true,
+  },
   resolve: {
     extensions: ['.js', '.ts'],
   },
